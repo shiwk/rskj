@@ -169,14 +169,17 @@ public abstract class SystemProperties {
 
         Path configPath = customConfigPath
                 .orElseGet(() -> Paths.get(System.getProperty("user.home"), ".rskj", networkName, "node.conf"));
+        Config networkBaseConfig = ConfigFactory.load(networkName);
+        Config nodeConfig = ConfigFactory.parseFile(configPath.toFile());
         // use .resolve() so we can capture environment variables
-        Config networkBaseConfig = ConfigFactory.load(networkName).resolve();
-        Config nodeConfig = ConfigFactory.parseFile(configPath.toFile()).resolve();
-        if (!nodeConfig.hasPath("peer.nodeId")) {
+        Config config = nodeConfig.withFallback(networkBaseConfig).resolve();
+        if (!config.hasPath("peer.privateKey")) {
             ECKey key = new ECKey();
             nodeConfig = nodeConfig
                     .withValue("peer.privateKey", ConfigValueFactory.fromAnyRef(Hex.toHexString(key.getPrivKeyBytes())))
                     .withValue("peer.nodeId", ConfigValueFactory.fromAnyRef(Hex.toHexString(key.getNodeId())));
+            // update config again, with new nodeConfig
+            config = nodeConfig.withFallback(networkBaseConfig).resolve();
             String updatedSettings = nodeConfig.root()
                     .render(ConfigRenderOptions.defaults().setOriginComments(false).setJson(false));
             try {
@@ -187,7 +190,7 @@ public abstract class SystemProperties {
             }
         }
 
-        return nodeConfig.withFallback(networkBaseConfig);
+        return config;
     }
 
     public Config getConfig() {

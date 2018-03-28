@@ -29,6 +29,7 @@ import co.rsk.net.eth.RskWireProtocol;
 import co.rsk.net.handler.TxHandler;
 import co.rsk.net.handler.TxHandlerImpl;
 import co.rsk.net.sync.SyncConfiguration;
+import co.rsk.publishers.EventBus;
 import co.rsk.rpc.CorsConfiguration;
 import co.rsk.rpc.Web3RskImpl;
 import co.rsk.rpc.modules.eth.*;
@@ -206,6 +207,11 @@ public class RskFactory {
             filterHandler,
             serverHandler
         );
+    }
+
+    @Bean
+    public EventBus eventBus(CompositeEthereumListener listener) {
+        return new EventBus(listener);
     }
 
     @Bean

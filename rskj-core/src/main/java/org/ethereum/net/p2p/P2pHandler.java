@@ -206,7 +206,7 @@ public class P2pHandler extends SimpleChannelInboundHandler<P2pMessage> {
      */
     public void sendTransaction(Transaction tx) {
 
-        TransactionsMessage msg = new TransactionsMessage(config, tx);
+        TransactionsMessage msg = new TransactionsMessage(tx);
         msgQueue.sendMessage(msg);
     }
 

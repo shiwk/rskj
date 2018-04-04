@@ -67,12 +67,9 @@ public class EthereumChannelInitializer extends ChannelInitializer<NioSocketChan
             ch.config().setOption(ChannelOption.SO_BACKLOG, 1024);
 
             // be aware of channel closing
-            ch.closeFuture().addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-                    if (!peerDiscoveryMode) {
-                        channelManager.notifyDisconnect(channel);
-                    }
+            ch.closeFuture().addListener(future -> {
+                if (!peerDiscoveryMode) {
+                    channelManager.notifyDisconnect(channel);
                 }
             });
 

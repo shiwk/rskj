@@ -238,8 +238,11 @@ public class RskFactory {
     }
 
     @Bean
-    public EthereumChannelInitializerFactory getEthereumChannelInitializerFactory(ChannelManager channelManager, EthereumChannelInitializer.ChannelFactory channelFactory) {
-        return remoteId -> new EthereumChannelInitializer(remoteId, channelManager, channelFactory);
+    public EthereumChannelInitializerFactory getEthereumChannelInitializerFactory(
+            ChannelManager channelManager,
+            EthereumChannelInitializer.ChannelFactory channelFactory) {
+        return (remoteId, peerDiscoveryMode) ->
+                new EthereumChannelInitializer(remoteId, peerDiscoveryMode, channelManager, channelFactory);
     }
 
     @Bean

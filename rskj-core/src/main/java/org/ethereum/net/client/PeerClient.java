@@ -68,8 +68,10 @@ public class PeerClient {
     public ChannelFuture connectAsync(String host, int port, String remoteId, boolean discoveryMode) {
         ethereumListener.trace("Connecting to: " + host + ":" + port);
 
-        EthereumChannelInitializer ethereumChannelInitializer = ethereumChannelInitializerFactory.newInstance(remoteId);
-        ethereumChannelInitializer.setPeerDiscoveryMode(discoveryMode);
+        EthereumChannelInitializer ethereumChannelInitializer = ethereumChannelInitializerFactory.newInstance(
+                remoteId,
+                discoveryMode
+        );
 
         Bootstrap b = new Bootstrap();
         b.group(workerGroup);

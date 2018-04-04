@@ -29,13 +29,17 @@ public class EthereumChannelInitializer extends ChannelInitializer<NioSocketChan
     private static final Logger logger = LoggerFactory.getLogger("net");
 
     private final String remoteId;
+    private final boolean peerDiscoveryMode;
     private final ChannelManager channelManager;
     private final ChannelFactory channelFactory;
 
-    private boolean peerDiscoveryMode = false;
-
-    public EthereumChannelInitializer(String remoteId, ChannelManager channelManager, ChannelFactory channelFactory) {
+    public EthereumChannelInitializer(
+            String remoteId,
+            boolean peerDiscoveryMode,
+            ChannelManager channelManager,
+            ChannelFactory channelFactory) {
         this.remoteId = remoteId;
+        this.peerDiscoveryMode = peerDiscoveryMode;
         this.channelManager = channelManager;
         this.channelFactory = channelFactory;
     }
@@ -80,10 +84,6 @@ public class EthereumChannelInitializer extends ChannelInitializer<NioSocketChan
 
     private boolean isInbound() {
         return remoteId == null || remoteId.isEmpty();
-    }
-
-    public void setPeerDiscoveryMode(boolean peerDiscoveryMode) {
-        this.peerDiscoveryMode = peerDiscoveryMode;
     }
 
     public interface ChannelFactory {

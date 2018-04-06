@@ -21,6 +21,7 @@ package co.rsk.core.bc;
 import co.rsk.config.RskSystemProperties;
 import co.rsk.core.Coin;
 import co.rsk.panic.PanicProcessor;
+import co.rsk.peg.RepositoryBlockStore;
 import org.ethereum.core.*;
 import org.ethereum.db.BlockStore;
 import org.ethereum.db.ReceiptStore;
@@ -134,6 +135,7 @@ public class BlockExecutor {
 
         if (!Arrays.equals(result.getStateRoot(), block.getStateRoot()))  {
             logger.error("Block's given State Root doesn't match: {} {} {} != {}", block.getNumber(), block.getShortHash(), Hex.toHexString(block.getStateRoot()), Hex.toHexString(result.getStateRoot()));
+            RepositoryBlockStore.clearCache();
             return false;
         }
 

@@ -136,5 +136,7 @@ public class RepositoryBlockStore implements BtcBlockStore{
     }
 
 
-
+    public static void clearCache() {
+        knownBlocks.clear();
+    }
 }

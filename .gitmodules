@@ -1,0 +1,3 @@
+[submodule "buildSrc/gradle-witness"]
+	path = buildSrc/gradle-witness
+	url = git@github.com:rsksmart/gradle-witness.git

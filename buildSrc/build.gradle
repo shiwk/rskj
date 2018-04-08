@@ -1,0 +1,4 @@
+dependencies {
+    // this allows plugins cloned as a submodule to work in the main tree
+    runtime subprojects.findAll { it.getTasksByName("jar", false) }
+}

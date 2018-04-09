@@ -21,9 +21,9 @@ package co.rsk.peg;
 import co.rsk.bitcoinj.core.*;
 import co.rsk.bitcoinj.store.BlockStoreException;
 import co.rsk.bitcoinj.store.BtcBlockStore;
+import co.rsk.config.RskSystemProperties;
 import co.rsk.core.RskAddress;
 import co.rsk.util.MaxSizeHashMap;
-import org.ethereum.config.SystemProperties;
 import org.ethereum.core.Repository;
 import org.ethereum.vm.DataWord;
 
@@ -42,12 +42,14 @@ public class RepositoryBlockStore implements BtcBlockStore{
     private static final int MAX_SIZE_MAP_STORED_BLOCKS = 8000;
     private static Map<Sha256Hash, StoredBlock> knownBlocks = new MaxSizeHashMap<>(MAX_SIZE_MAP_STORED_BLOCKS);
 
+    private final RskSystemProperties config;
     private final Repository repository;
     private final RskAddress contractAddress;
 
     private final NetworkParameters params;
 
-    public RepositoryBlockStore(SystemProperties config, Repository repository, RskAddress contractAddress) {
+    public RepositoryBlockStore(RskSystemProperties config, Repository repository, RskAddress contractAddress) {
+        this.config = config;
         this.repository = repository;
         this.contractAddress = contractAddress;
 
@@ -72,15 +74,19 @@ public class RepositoryBlockStore implements BtcBlockStore{
         Sha256Hash hash = block.getHeader().getHash();
         byte[] ba = storedBlockToByteArray(block);
         repository.addStorageBytes(contractAddress, new DataWord(hash.toString()), ba);
-        knownBlocks.put(hash, block);
+        if (!config.isMinerServerEnabled()) {
+            knownBlocks.put(hash, block);
+        }
     }
 
     @Override
     public synchronized StoredBlock get(Sha256Hash hash) throws BlockStoreException {
-        StoredBlock storedBlock = knownBlocks.get(hash);
+        if (!config.isMinerServerEnabled()) {
+            StoredBlock cachedBlock = knownBlocks.get(hash);
 
-        if (storedBlock != null) {
-            return storedBlock;
+            if (cachedBlock != null) {
+                return cachedBlock;
+            }
         }
 
         byte[] ba = repository.getStorageBytes(contractAddress, new DataWord(hash.toString()));
@@ -88,10 +94,12 @@ public class RepositoryBlockStore implements BtcBlockStore{
         if (ba==null) {
             return null;
         }
-        
-        storedBlock = byteArrayToStoredBlock(ba);
 
-        knownBlocks.put(hash, storedBlock);
+        StoredBlock storedBlock = byteArrayToStoredBlock(ba);
+
+        if (!config.isMinerServerEnabled()) {
+            knownBlocks.put(hash, storedBlock);
+        }
 
         return storedBlock;
     }
@@ -137,6 +145,7 @@ public class RepositoryBlockStore implements BtcBlockStore{
 
 
     public static void clearCache() {
+        // if miner server disabled, knownBlocks will already be empty
         knownBlocks.clear();
     }
 }

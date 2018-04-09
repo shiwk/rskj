@@ -22,6 +22,7 @@ import co.rsk.config.RskSystemProperties;
 import co.rsk.core.RskAddress;
 import co.rsk.crypto.Keccak256;
 import co.rsk.net.handler.TxPendingValidator;
+import co.rsk.remasc.RemascTransaction;
 import co.rsk.trie.Trie;
 import co.rsk.trie.TrieImpl;
 import com.google.common.annotations.VisibleForTesting;
@@ -42,6 +43,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.ethereum.util.BIUtil.toBI;
 
@@ -302,7 +304,9 @@ public class TransactionPoolImpl implements TransactionPool {
 
     @VisibleForTesting
     public void retractBlock(Block block) {
-        List<Transaction> txs = block.getTransactionsList();
+        List<Transaction> txs = block.getTransactionsList().stream()
+                .filter(o -> !(o instanceof RemascTransaction))
+                .collect(Collectors.toList());
 
         this.addTransactions(txs);
     }

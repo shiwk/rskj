@@ -22,6 +22,7 @@ import co.rsk.blockchain.utils.BlockGenerator;
 import co.rsk.config.TestSystemProperties;
 import co.rsk.core.BlockDifficulty;
 import co.rsk.core.Coin;
+import co.rsk.remasc.RemascTransaction;
 import co.rsk.test.builders.BlockBuilder;
 import co.rsk.test.builders.BlockChainBuilder;
 import org.ethereum.core.Account;
@@ -455,7 +456,7 @@ public class TransactionPoolImplTest {
     }
 
     @Test
-    public void retractBlockAddsTransactionsAsPending() {
+    public void retractBlockAddsTransactionsAsPendingExceptRemasc() {
         BlockChainImpl blockchain = createBlockchain();
         Coin balance = Coin.valueOf(1000000);
         TransactionPoolImpl transactionPool = createSampleNewTransactionPoolWithAccounts(3, balance, blockchain);
@@ -464,6 +465,7 @@ public class TransactionPoolImplTest {
         Transaction tx2 = createSampleTransaction(1, 2, 3000, 1);
         Transaction tx3 = createSampleTransaction(2, 3, 1000, 0);
         Transaction tx4 = createSampleTransaction(2, 3, 3000, 1);
+        Transaction tx5 = new RemascTransaction(1);
 
         transactionPool.addTransaction(tx1);
         transactionPool.addTransaction(tx2);
@@ -471,6 +473,7 @@ public class TransactionPoolImplTest {
         List<Transaction> txs = new ArrayList<>();
         txs.add(tx3);
         txs.add(tx4);
+        txs.add(tx5);
 
         Block block = new BlockBuilder().parent(new BlockGenerator().getGenesisBlock()).transactions(txs).build();
 

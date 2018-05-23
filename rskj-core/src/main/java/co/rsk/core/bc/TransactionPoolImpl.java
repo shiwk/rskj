@@ -23,6 +23,7 @@ import co.rsk.core.Coin;
 import co.rsk.core.RskAddress;
 import co.rsk.crypto.Keccak256;
 import co.rsk.net.handler.TxPendingValidator;
+import co.rsk.peg.BridgeUtils;
 import co.rsk.trie.Trie;
 import co.rsk.trie.TrieImpl;
 import com.google.common.annotations.VisibleForTesting;
@@ -462,12 +463,6 @@ public class TransactionPoolImpl implements TransactionPool {
         }
 
         AccountState state = repository.getAccountState(tx.getSender());
-
-        if (state == null) {
-            // if the sender doesn't have an account yet, they could never pay for the transaction.
-            return false;
-        }
-
         return validator.isValid(tx, bestBlock, state);
     }
 

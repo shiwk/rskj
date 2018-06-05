@@ -111,11 +111,11 @@ public class BlockChainImpl implements Blockchain {
         this.repository = repository;
         this.blockStore = blockStore;
         this.receiptStore = receiptStore;
+        this.transactionPool = transactionPool;
         this.listener = listener;
         this.adminInfo = adminInfo;
         this.blockValidator = blockValidator;
         this.blockExecutor = new BlockExecutor(config, repository, receiptStore, blockStore, listener);
-        this.transactionPool = transactionPool;
     }
 
     @Override
@@ -539,7 +539,7 @@ public class BlockChainImpl implements Blockchain {
     }
 
     private void processBest(final Block block) {
-        EventDispatchThread.invokeLater(() -> transactionPool.processBest(block));
+        transactionPool.processBest(block);
     }
 
     private void onBlock(Block block, BlockResult result) {

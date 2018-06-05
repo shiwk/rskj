@@ -61,7 +61,16 @@ public class CompositeEthereumListener implements EthereumListener {
 
     @Override
     public void onBlock(Block block, List<TransactionReceipt> receipts) {
-        scheduleListenerCallbacks(listener -> listener.onBlock(block, receipts));
+        for (EthereumListener listener : listeners) {
+            EventDispatchThread.invokeLater(() -> {
+                try {
+                    listener.onBlock(block, receipts);
+                } catch (Throwable e) {
+                    logger.error("Listener callback failed with exception", e);
+                    panicProcessor.panic("thread", String.format("Listener callback failed with exception %s", e.getMessage()));
+                }
+            });
+        }
     }
 
     @Override

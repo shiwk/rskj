@@ -62,14 +62,26 @@ public class CompositeEthereumListener implements EthereumListener {
     @Override
     public void onBlock(Block block, List<TransactionReceipt> receipts) {
         for (EthereumListener listener : listeners) {
-            EventDispatchThread.invokeLater(() -> {
+            logger.info("ARIEL LISTENER ONBLOCK {} BLOCK #{}, blockHash={} THREAD {}", listener.getClass().getName(), block.getNumber() + 1,
+                    block.getShortHash(), Thread.currentThread().getId());
+            /*if (listener.getClass().getName() == "co.rsk.mine.MinerServerImpl$NewBlockListener") {
+                logger.info("ARIEL MINER SERVER LISTENER ONBLOCK {} BLOCK #{}, THREAD {}", listener.getClass().getName(), block.getNumber() + 1, Thread.currentThread().getId());
                 try {
                     listener.onBlock(block, receipts);
                 } catch (Throwable e) {
                     logger.error("Listener callback failed with exception", e);
                     panicProcessor.panic("thread", String.format("Listener callback failed with exception %s", e.getMessage()));
                 }
-            });
+            } else {*/
+                EventDispatchThread.invokeLater(() -> {
+                    try {
+                        listener.onBlock(block, receipts);
+                    } catch (Throwable e) {
+                        logger.error("Listener callback failed with exception", e);
+                        panicProcessor.panic("thread", String.format("Listener callback failed with exception %s", e.getMessage()));
+                    }
+                });
+            //}
         }
     }
 

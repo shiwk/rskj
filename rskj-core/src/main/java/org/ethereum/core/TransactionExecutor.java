@@ -24,6 +24,7 @@ import co.rsk.config.VmConfig;
 import co.rsk.core.Coin;
 import co.rsk.core.RskAddress;
 import co.rsk.panic.PanicProcessor;
+import co.rsk.peg.BridgeMethods;
 import org.ethereum.config.BlockchainConfig;
 import org.ethereum.config.Constants;
 import org.ethereum.db.BlockStore;
@@ -44,6 +45,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.ArrayUtils.getLength;
@@ -218,7 +220,21 @@ public class TransactionExecutor {
             return;
         }
 
-        logger.trace("Execute transaction {} {}", toBI(tx.getNonce()), tx.getHash());
+        logger.info("Execute transaction {} {}", toBI(tx.getNonce()), tx.getHash());
+        Optional<String> s = Optional.empty();
+        if (tx.getData() != null){
+            s = BridgeMethods.findBySignature(Arrays.copyOfRange(tx.getData(), 0, 4)).map(bm -> bm.getFunction().name);
+        }
+        logger.info("ARIEL TXEXEC: tx {}, sender {}, to {}, block {}, bridge {}, THREAD {}, on {}, ON {}",
+                tx.getHash(),
+                tx.getSender(),
+                tx.getReceiveAddress(),
+                executionBlock.getShortHash(),
+                s,
+                Thread.currentThread().getId(),
+                Thread.currentThread().getStackTrace()[2].getClassName(),
+                Thread.currentThread().getStackTrace()[5].getClassName()
+        );
 
         if (!localCall) {
 

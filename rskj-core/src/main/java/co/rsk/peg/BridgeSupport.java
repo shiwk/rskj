@@ -563,7 +563,7 @@ public class BridgeSupport {
 
         eventLogger.logUpdateCollections(rskTx);
 
-        processFundsMigration();
+        processFundsMigration(rskTx);
 
         processReleaseRequests();
 
@@ -592,7 +592,7 @@ public class BridgeSupport {
                 && retiringFederationWallet.getBalance().isGreaterThan(minimumFundsToMigrate);
     }
 
-    private void processFundsMigration() throws IOException {
+    private void processFundsMigration(Transaction rskTx) throws IOException {
         Wallet retiringFederationWallet = getRetiringFederationWallet();
         List<UTXO> availableUTXOs = getRetiringFederationBtcUTXOs();
         ReleaseTransactionSet releaseTransactionSet = provider.getReleaseTransactionSet();
@@ -610,6 +610,10 @@ public class BridgeSupport {
 
             // Add the TX to the release set
             releaseTransactionSet.add(btcTx, rskExecutionBlock.getNumber());
+            logger.info("ARIEL FUNDS MIGRATION #block {} blockHash={} rskTx={} age={} btcTx={} THREAD={}", rskExecutionBlock.getNumber() + 1, rskExecutionBlock.getShortHash(),
+                    rskTx.getHash(),
+                    rskExecutionBlock.getNumber() - activeFederation.getCreationBlockNumber(), btcTx.getHash(),
+                    Thread.currentThread().getId());
 
             // Mark UTXOs as spent
             availableUTXOs.removeIf(utxo -> selectedUTXOs.stream().anyMatch(selectedUtxo ->
@@ -778,7 +782,11 @@ public class BridgeSupport {
 
         // Add the btc transaction to the 'awaiting signatures' list
         if (txsWithEnoughConfirmations.size() > 0) {
-            txsWaitingForSignatures.put(rskTx.getHash(), txsWithEnoughConfirmations.iterator().next());
+            BtcTransaction next = txsWithEnoughConfirmations.iterator().next();
+            txsWaitingForSignatures.put(rskTx.getHash(), next);
+            logger.info("ARIEL ADD RELEASE #block{} blockHash={} rskTx={} btcTx={} THREAD={}",rskExecutionBlock.getNumber()+1,
+                    rskExecutionBlock.getShortHash(), rskTx.getHash(), next.getHash(),
+                    Thread.currentThread().getId());
         }
     }
 
@@ -833,6 +841,10 @@ public class BridgeSupport {
             return;
         }
         eventLogger.logAddSignature(federatorPublicKey, btcTx, rskTxHash);
+        logger.info("ARIEL ADD SIGNATURE #block{} blockHash={} rskTx={} THREAD {}",rskExecutionBlock.getNumber()+1,
+                rskExecutionBlock.getShortHash(),
+                Hex.toHexString(rskTxHash),
+                Thread.currentThread().getId());
         processSigning(federatorPublicKey, signatures, rskTxHash, btcTx);
     }
 

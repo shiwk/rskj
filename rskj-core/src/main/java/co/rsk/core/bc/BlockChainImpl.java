@@ -310,6 +310,7 @@ public class BlockChainImpl implements Blockchain {
             logger.trace("Start saveReceipts");
             saveReceipts(block, result);
             logger.trace("Start processBest");
+            logger.info("ARIEL TRY to CONNECT BLOCK #{}, blockHash={}", block.getNumber() + 1, block.getShortHash());
             processBest(block);
             logger.trace("Start onBestBlock");
             onBestBlock(block, result);
@@ -339,6 +340,7 @@ public class BlockChainImpl implements Blockchain {
             extendAlternativeBlockChain(block, totalDifficulty);
             logger.trace("Start saveReceipts");
             saveReceipts(block, result);
+            logger.info("ARIEL UGLY CONNECT BLOCK #{}, blockHash={}", block.getNumber() + 1, block.getShortHash());
             logger.trace("Start onBlock");
             onBlock(block, result);
             logger.trace("Start flushData");

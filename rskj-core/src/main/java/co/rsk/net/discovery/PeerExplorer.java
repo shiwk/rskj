@@ -286,10 +286,9 @@ public class PeerExplorer {
     }
 
     private List<PeerDiscoveryRequest> removeExpiredRequests(Map<String, PeerDiscoveryRequest> pendingRequests) {
-        List<PeerDiscoveryRequest> requests = pendingRequests.values().stream()
-                .filter(PeerDiscoveryRequest::hasExpired).collect(Collectors.toList());
-        requests.forEach(r -> pendingRequests.remove(r.getMessageId()));
-
+        List<PeerDiscoveryRequest> requests = new ArrayList<>(pendingRequests.values());
+        pendingRequests.values().removeIf(PeerDiscoveryRequest::hasExpired);
+        requests.removeAll(pendingRequests.values());
         return requests;
     }
 

@@ -1402,12 +1402,7 @@ public class BridgeTest {
         Bridge bridge = new Bridge(config, PrecompiledContracts.BRIDGE_ADDR);
         bridge.init(mockedTransaction, getGenesisBlock(), track, null, null, null);
 
-        try {
-            bridge.execute(Bridge.ADD_LOCK_WHITELIST_ADDRESS.encode(new Object[]{ "i-am-an-address", BigInteger.valueOf(25L) }));
-            Assert.fail();
-        } catch (Exception e) {
-            Assert.assertTrue(e.getMessage().contains("'ADD_LOCK_WHITELIST_ADDRESS' is not enabled"));
-        }
+        Assert.assertNull(bridge.execute(Bridge.ADD_LOCK_WHITELIST_ADDRESS.encode(new Object[]{ "i-am-an-address", BigInteger.valueOf(25L) })));
     }
 
     @Test
@@ -1423,12 +1418,7 @@ public class BridgeTest {
         Bridge bridge = new Bridge(config, PrecompiledContracts.BRIDGE_ADDR);
         bridge.init(mockedTransaction, getGenesisBlock(), track, null, null, null);
 
-        try {
-            bridge.execute(Bridge.ADD_ONE_OFF_LOCK_WHITELIST_ADDRESS.encode(new Object[]{ "i-am-an-address", BigInteger.valueOf(25L) }));
-            Assert.fail();
-        } catch (Exception e) {
-            Assert.assertTrue(e.getMessage().contains("'ADD_ONE_OFF_LOCK_WHITELIST_ADDRESS' is not enabled"));
-        }
+        Assert.assertNull(bridge.execute(Bridge.ADD_ONE_OFF_LOCK_WHITELIST_ADDRESS.encode(new Object[]{ "i-am-an-address", BigInteger.valueOf(25L) })));
     }
 
     @Test
@@ -1471,12 +1461,7 @@ public class BridgeTest {
         Bridge bridge = new Bridge(config, PrecompiledContracts.BRIDGE_ADDR);
         bridge.init(mockedTransaction, getGenesisBlock(), track, null, null, null);
 
-        try {
-            bridge.execute(Bridge.ADD_UNLIMITED_LOCK_WHITELIST_ADDRESS.encode(new Object[]{ "i-am-an-address" }));
-            Assert.fail();
-        } catch (Exception e) {
-            Assert.assertTrue(e.getMessage().contains("'ADD_UNLIMITED_LOCK_WHITELIST_ADDRESS' is not enabled"));
-        }
+        Assert.assertNull(bridge.execute(Bridge.ADD_UNLIMITED_LOCK_WHITELIST_ADDRESS.encode(new Object[]{ "i-am-an-address" })));
     }
 
     @Test

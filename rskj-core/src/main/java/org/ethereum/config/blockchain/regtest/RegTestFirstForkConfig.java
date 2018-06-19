@@ -17,16 +17,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ethereum.config.blockchain;
+package org.ethereum.config.blockchain.regtest;
 
 import co.rsk.config.BridgeConstants;
 import co.rsk.config.BridgeRegTestConstants;
 import co.rsk.core.BlockDifficulty;
+import org.ethereum.config.blockchain.GenesisConfig;
 
 import java.math.BigInteger;
 
-
-public class RegTestConfig extends GenesisConfig {
+public class RegTestFirstForkConfig extends GenesisConfig {
 
     public static class RegTestConstants extends GenesisConstants {
 
@@ -62,7 +62,7 @@ public class RegTestConfig extends GenesisConfig {
         }
     };
 
-    public RegTestConfig() {
+    public RegTestFirstForkConfig() {
         super(new RegTestConstants());
     }
 

@@ -28,7 +28,6 @@ import co.rsk.peg.utils.BridgeEventLogger;
 import co.rsk.peg.utils.BridgeEventLoggerImpl;
 import co.rsk.peg.utils.BtcTransactionFormatUtils;
 import com.google.common.annotations.VisibleForTesting;
-import org.apache.commons.lang3.tuple.Pair;
 import org.ethereum.config.BlockchainConfig;
 import org.ethereum.config.BlockchainNetConfig;
 import org.ethereum.core.Block;
@@ -625,7 +624,7 @@ public class Bridge extends PrecompiledContracts.PrecompiledContract {
         try {
             publicKeyBytes = (byte[]) args[0];
         } catch (Exception e) {
-            logger.warn("Exception in addFederatorPublicKey: {}", e.getMessage());
+            logger.warn("Exception in addFederatorPublicKey: {}", e);
             return -10;
         }
 
@@ -643,7 +642,7 @@ public class Bridge extends PrecompiledContracts.PrecompiledContract {
         try {
             hash = (byte[]) args[0];
         } catch (Exception e) {
-            logger.warn("Exception in commitFederation: {}", e.getMessage());
+            logger.warn("Exception in commitFederation: {}", e);
             return -10;
         }
 
@@ -731,7 +730,7 @@ public class Bridge extends PrecompiledContracts.PrecompiledContract {
             addressBase58 = (String) args[0];
             maxTransferValue = (BigInteger) args[1];
         } catch (Exception e) {
-            logger.warn("Exception in addOneOffLockWhitelistAddress: {}", e.getMessage());
+            logger.warn("Exception in addOneOffLockWhitelistAddress: {}", e);
             return 0;
         }
 
@@ -746,7 +745,7 @@ public class Bridge extends PrecompiledContracts.PrecompiledContract {
         try {
             addressBase58 = (String) args[0];
         } catch (Exception e) {
-            logger.warn("Exception in addUnlimitedLockWhitelistAddress: {}", e.getMessage());
+            logger.warn("Exception in addUnlimitedLockWhitelistAddress: {}", e);
             return 0;
         }
 
@@ -761,7 +760,7 @@ public class Bridge extends PrecompiledContracts.PrecompiledContract {
         try {
             addressBase58 = (String) args[0];
         } catch (Exception e) {
-            logger.warn("Exception in removeLockWhitelistAddress: {}", e.getMessage());
+            logger.warn("Exception in removeLockWhitelistAddress: {}", e);
             return 0;
         }
 

@@ -24,7 +24,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.typesafe.config.*;
 import org.ethereum.config.blockchain.DevNetConfig;
 import org.ethereum.config.blockchain.FallbackMainNetConfig;
-import org.ethereum.config.blockchain.regtest.RegTestConfig;
 import org.ethereum.config.net.MainNetConfig;
 import org.ethereum.config.net.TestNetConfig;
 import org.ethereum.crypto.ECKey;

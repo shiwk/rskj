@@ -107,7 +107,8 @@ public class BridgeTest {
         Repository repository = new RepositoryImpl(config);
         Repository track = repository.startTracking();
 
-        BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants());
+        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = BridgeStorageConfiguration.fromBlockchainConfig(config.getBlockchainConfig().getConfigForBlock(0));
+        BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants(), bridgeStorageConfigurationAtThisHeight);
 
         provider0.getReleaseTransactionSet().add(tx1, 1L);
         provider0.save();
@@ -138,7 +139,8 @@ public class BridgeTest {
         Repository repository = new RepositoryImpl(config);
         Repository track = repository.startTracking();
 
-        BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants());
+        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = BridgeStorageConfiguration.fromBlockchainConfig(config.getBlockchainConfig().getConfigForBlock(0));
+        BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants(), bridgeStorageConfigurationAtThisHeight);
 
         provider0.getReleaseTransactionSet().add(tx1, 1L);
         provider0.getReleaseTransactionSet().add(tx2, 2L);
@@ -160,7 +162,8 @@ public class BridgeTest {
 
         track.commit();
 
-        BridgeStorageProvider provider = new BridgeStorageProvider(repository, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants());
+        // reusing same storage configuration as the height doesn't affect storage configurations for releases.
+        BridgeStorageProvider provider = new BridgeStorageProvider(repository, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants(), bridgeStorageConfigurationAtThisHeight);
 
         Assert.assertEquals(3, provider.getReleaseTransactionSet().getEntries().size());
         Assert.assertEquals(0, provider.getRskTxsWaitingForSignatures().size());
@@ -175,7 +178,8 @@ public class BridgeTest {
         Repository repository = new RepositoryImpl(config);
         Repository track = repository.startTracking();
 
-        BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants());
+        BridgeStorageConfiguration bridgeStorageConfigurationAtThisHeight = BridgeStorageConfiguration.fromBlockchainConfig(config.getBlockchainConfig().getConfigForBlock(0));
+        BridgeStorageProvider provider0 = new BridgeStorageProvider(track, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants(), bridgeStorageConfigurationAtThisHeight);
 
         provider0.getReleaseTransactionSet().add(tx1, 1L);
         provider0.getReleaseTransactionSet().add(tx2, 2L);
@@ -203,7 +207,8 @@ public class BridgeTest {
 
         track.commit();
 
-        BridgeStorageProvider provider = new BridgeStorageProvider(repository, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants());
+        // reusing same storage configuration as the height doesn't affect storage configurations for releases.
+        BridgeStorageProvider provider = new BridgeStorageProvider(repository, PrecompiledContracts.BRIDGE_ADDR, config.getBlockchainConfig().getCommonConstants().getBridgeConstants(), bridgeStorageConfigurationAtThisHeight);
 
         Assert.assertEquals(2, provider.getReleaseTransactionSet().getEntries().size());
         Assert.assertEquals(1, provider.getRskTxsWaitingForSignatures().size());

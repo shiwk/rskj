@@ -20,6 +20,7 @@
 package org.ethereum.config.net;
 
 import org.ethereum.config.blockchain.regtest.RegTestFirstForkConfig;
+import org.ethereum.config.blockchain.regtest.RegTestGenesisConfig;
 
 
 /**
@@ -27,7 +28,7 @@ import org.ethereum.config.blockchain.regtest.RegTestFirstForkConfig;
  */
 public class RegTestConfig extends AbstractNetConfig {
     public RegTestConfig() {
-        add(0, new org.ethereum.config.blockchain.regtest.RegTestConfig());
+        add(0, new RegTestGenesisConfig());
         // TODO: establish when to apply this fork. 500 is just a made up figure, low enough to avoid reaching the fork to be a hassle.
         add(500, new RegTestFirstForkConfig());
     }

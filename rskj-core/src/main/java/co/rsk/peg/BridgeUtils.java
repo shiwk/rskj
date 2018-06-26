@@ -209,7 +209,8 @@ public class BridgeUtils {
     public static Address recoverBtcAddressFromEthTransaction(org.ethereum.core.Transaction tx, NetworkParameters networkParameters) {
         org.ethereum.crypto.ECKey key = tx.getKey();
         byte[] pubKey = key.getPubKey(true);
-        return BtcECKey.fromPublicOnly(pubKey).toAddress(networkParameters);
+        return new Address(networkParameters, Utils.sha256hash160(pubKey));
+//        return BtcECKey.fromPublicOnly(pubKey).toAddress(networkParameters);
     }
 
     public static boolean isFreeBridgeTx(SystemProperties config, Transaction rskTx, long blockNumber) {

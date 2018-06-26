@@ -20,7 +20,7 @@ package co.rsk.net.handler.txvalidator;
 
 import co.rsk.config.BridgeRegTestConstants;
 import co.rsk.config.TestSystemProperties;
-import org.spongycastle.util.encoders.Hex;
+import org.bouncycastle.util.encoders.Hex;
 import org.ethereum.config.blockchain.RegTestConfig;
 import org.ethereum.core.AccountState;
 import org.ethereum.core.Transaction;
@@ -29,7 +29,7 @@ import org.ethereum.vm.PrecompiledContracts;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.spongycastle.util.encoders.Hex;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 

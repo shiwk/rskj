@@ -37,7 +37,7 @@ import org.ethereum.crypto.Keccak256Helper;
 import org.ethereum.vm.PrecompiledContracts;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.spongycastle.util.encoders.Hex;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 import java.util.*;

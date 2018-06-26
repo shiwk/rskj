@@ -24,11 +24,13 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import org.ethereum.util.RLP;
 import org.spongycastle.crypto.StreamCipher;
-import org.spongycastle.crypto.digests.SHA3Digest;
+import org.bouncycastle.crypto.digests.SHA3Digest;
 import org.spongycastle.crypto.engines.AESFastEngine;
 import org.spongycastle.crypto.modes.SICBlockCipher;
 import org.spongycastle.crypto.params.KeyParameter;
 import org.spongycastle.crypto.params.ParametersWithIV;
+
+// TODO FIND INCOMPATIBILITIES
 
 import java.io.*;
 import java.util.ArrayList;
@@ -43,8 +45,8 @@ import static org.ethereum.util.RLP.decode2OneItem;
 public class FrameCodec {
     private final StreamCipher enc;
     private final StreamCipher dec;
-    private final SHA3Digest egressMac;
-    private final SHA3Digest ingressMac;
+    private final org.bouncycastle.crypto.digests.SHA3Digest egressMac;
+    private final org.bouncycastle.crypto.digests.SHA3Digest ingressMac;
     private final byte[] mac;
     boolean isHeadRead;
     private int totalBodySize;

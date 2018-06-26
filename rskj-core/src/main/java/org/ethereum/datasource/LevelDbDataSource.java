@@ -24,7 +24,7 @@ import co.rsk.panic.PanicProcessor;
 import org.iq80.leveldb.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spongycastle.util.encoders.Hex;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,6 +61,8 @@ public class LevelDbDataSource implements KeyValueDataSource {
     // This ReadWriteLock still permits concurrent execution of insert/delete/update operations
     // however blocks them on init/close/delete operations
     private ReadWriteLock resetDbLock = new ReentrantReadWriteLock();
+    private int totalPuts;
+    private int totalUnnecessaryPuts;
 
     public LevelDbDataSource(RskSystemProperties config, String name) {
         this.config = config;
@@ -196,6 +198,12 @@ public class LevelDbDataSource implements KeyValueDataSource {
             if (logger.isTraceEnabled()) {
                 logger.trace("~> LevelDbDataSource.put(): " + name + ", key: " + Hex.toHexString(key) + ", " + (value == null ? "null" : value.length));
             }
+
+//            totalPuts++;
+//            if (Arrays.equals(db.get(key), value)) {
+//                logger.warn("total puts to db {}: {}", name, totalPuts);
+//                logger.warn("total unnecessary puts to db {}: {}", name, totalUnnecessaryPuts++);
+//            }
 
             db.put(key, value);
             if (logger.isTraceEnabled()) {

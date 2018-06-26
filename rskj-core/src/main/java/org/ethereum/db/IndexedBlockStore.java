@@ -31,7 +31,7 @@ import org.mapdb.DataIO;
 import org.mapdb.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spongycastle.pqc.math.linearalgebra.ByteUtils;
+import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -39,7 +39,7 @@ import java.util.*;
 
 import static co.rsk.core.BlockDifficulty.ZERO;
 import static org.ethereum.crypto.HashUtil.shortHash;
-import static org.spongycastle.util.Arrays.areEqual;
+import static org.bouncycastle.util.Arrays.areEqual;
 
 public class IndexedBlockStore extends AbstractBlockstore {
 

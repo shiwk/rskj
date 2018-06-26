@@ -1,7 +1,7 @@
 package org.ethereum.config.blockchain;
 
 import org.ethereum.config.Constants;
-import org.spongycastle.util.encoders.Hex;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 

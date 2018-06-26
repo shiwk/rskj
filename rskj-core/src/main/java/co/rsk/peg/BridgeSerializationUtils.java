@@ -23,7 +23,7 @@ import co.rsk.core.RskAddress;
 import co.rsk.crypto.Keccak256;
 import org.ethereum.util.RLP;
 import org.ethereum.util.RLPList;
-import org.spongycastle.util.BigIntegers;
+import org.bouncycastle.util.BigIntegers;
 
 import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;

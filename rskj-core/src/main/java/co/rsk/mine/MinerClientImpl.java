@@ -21,7 +21,7 @@ package co.rsk.mine;
 import co.rsk.config.RskSystemProperties;
 import co.rsk.core.Rsk;
 import co.rsk.panic.PanicProcessor;
-import org.ethereum.config.blockchain.DevNetConfig;
+import org.ethereum.config.net.DevNetConfig;
 import org.ethereum.config.net.RegTestConfig;
 import org.ethereum.rpc.TypeConverter;
 import org.slf4j.Logger;

@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ethereum.config.blockchain;
+package org.ethereum.config.blockchain.devnet;
 
 import co.rsk.config.BridgeConstants;
 import co.rsk.config.BridgeDevNetConstants;
@@ -26,7 +26,7 @@ import org.ethereum.config.blockchain.testnet.TestNetAfterBridgeSyncConfig;
 /**
  * Created by Oscar Guindzberg on 25.10.2016.
  */
-public class DevNetConfig extends TestNetAfterBridgeSyncConfig {
+public class DevNetFirstForkConfig extends TestNetAfterBridgeSyncConfig {
 
     public static class DevNetConstants extends TestNetConstants {
         private static final byte CHAIN_ID = 32;
@@ -41,7 +41,7 @@ public class DevNetConfig extends TestNetAfterBridgeSyncConfig {
         }
     }
 
-    public DevNetConfig() {
+    public DevNetFirstForkConfig() {
         super(new DevNetConstants());
     }
 

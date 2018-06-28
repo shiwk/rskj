@@ -71,6 +71,8 @@ public class BridgeSupport {
     private static final Logger logger = LoggerFactory.getLogger("BridgeSupport");
     private static final PanicProcessor panicProcessor = new PanicProcessor();
 
+    private static final String INVALID_ADDRESS_FORMAT_MESSAGE = "invalid address format: {}";
+
     private final List<String> FEDERATION_CHANGE_FUNCTIONS = Collections.unmodifiableList(Arrays.asList(
             "create",
             "add",
@@ -1593,7 +1595,7 @@ public class BridgeSupport {
             Coin maxTransferValueCoin = Coin.valueOf(maxTransferValue.longValueExact());
             return this.addLockWhitelistAddress(tx, new OneOffWhiteListEntry(address, maxTransferValueCoin));
         } catch (AddressFormatException e) {
-            logger.warn("invalid address format: {}", e);
+            logger.warn(INVALID_ADDRESS_FORMAT_MESSAGE, e);
             return -2;
         }
     }
@@ -1603,7 +1605,7 @@ public class BridgeSupport {
             Address address = Address.fromBase58(btcContext.getParams(), addressBase58);
             return this.addLockWhitelistAddress(tx, new UnlimitedWhiteListEntry(address));
         } catch (AddressFormatException e) {
-            logger.warn("invalid address format: {}", e);
+            logger.warn(INVALID_ADDRESS_FORMAT_MESSAGE, e);
             return -2;
         }
     }
@@ -1622,7 +1624,7 @@ public class BridgeSupport {
             whitelist.put(entry.address(), entry);
             return 1;
         } catch (AddressFormatException e) {
-            logger.warn("invalid address format: {}", e);
+            logger.warn(INVALID_ADDRESS_FORMAT_MESSAGE, e);
             return -2;
         } catch (Exception e) {
             logger.error("Unexpected error in addLockWhitelistAddress: {}", e);
